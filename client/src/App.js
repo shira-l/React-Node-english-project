@@ -41,6 +41,7 @@ import PresentContinuousRules from "./features/grammarRules/PresentContinuousRul
 import VerbsExplanation from "./features/grammarRules/VerbsExplanation";
 import Instructions from "./features/instructions/Instructions";
 import StudentInstructions from "./features/instructions/StudentInstructions";
+import ContactForm from "./features/contactForm/ContactForm";
 
 function App() {
   return (
@@ -86,7 +87,7 @@ function App() {
                 <Route path="choose" element={<CurrentSchoolAndClass />} />
                 <Route path="personalldetails" element={<SingleUser notForATeacher="true" />} />
                 <Route path="tips" element={<Tips />} />
-
+                <Route path="Contact-form" element={<ContactForm />} />
 
                 <Route path="student-instruction" element={<StudentInstructions />} />
                 <Route path="gramar-rules" element={<GrammarRules />} />

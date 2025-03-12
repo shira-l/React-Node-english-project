@@ -1,84 +1,120 @@
 import React from 'react';
 import { Box, Typography, TextField, Button, Container } from '@mui/material';
-import theme from '../../theme'; // מייבא את הנושא המותאם אישית שלך
+import { useForm } from 'react-hook-form';
 
 const ContactForm = () => {
+  const styleOfContactFormElements = {
+    color: '#ffffff',
+    borderRadius: "25px",
+    height: "48px",
+    fontSize: "16px",
+    fontWeight: "bold"
+  }
+
+  const styleOfTextField = {
+    "& .MuiInputBase-input": {
+      ...styleOfContactFormElements,
+      backgroundColor: 'rgba(45, 64, 168, 1)',
+      padding: "12px 15px",
+      "&::before, &::after": {
+        display: "none", // מסיר את הקווים התחלתיים והתחתיים
+      },
+    },
+    "& .MuiInput-underline:before, & .MuiInput-underline:after": {
+      display: "none", // מסיר את הקו התחתי
+    }
+  }
+
+  const { contact, handleSubmit, formState: { errors }, reset } = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      massage: '',
+    }
+  });
+
+  const handleSubmit=()=>{
+    
+  }
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      direction: "rtl"
+    }}>
+      <Typography gutterBottom sx={{}}>
+        תמיכה טכנית
+      </Typography>
+      <Typography gutterBottom sx={{}}>
+        תדברו איתנו, לא חייב באנגלית:)
+      </Typography>
+
+
       <Box
+        component="form"
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          p: 3,
-          borderRadius: 2,
-          boxShadow: 3,
-          backgroundColor: theme.palette.background.paper,
+          gap: 2,
+          mt: 3,
+          width: '620px'
         }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
       >
-        <Typography variant="h4" gutterBottom sx={{ color: theme.palette.primary.main }}>
-          Goldi Zusman
-        </Typography>
-        <Typography variant="h6" gutterBottom sx={{ color: theme.palette.primary.main }}>
-          Programmer & Software Engineer
-        </Typography>
-        <Typography variant="body1" sx={{ color: theme.palette.primary.main }}>
-          Email: <a href="mailto:golda.z2030@gmail.com" style={{ color: theme.palette.primary.main }}>golda.z2030@gmail.com</a>
-        </Typography>
-        <Typography variant="body1" sx={{ color: theme.palette.primary.main }}>
-          📞 +123 456 7890
-        </Typography>
-        
-        <Box
-          component="form"
+        <TextField
+          className='textField'
+          defaultValue="שם"
+          variant="standard"
+          fullWidth
+          dec
+          sx={styleOfTextField}
+          {...contact("name")}
+        />
+        <TextField
+          defaultValue="מייל"
+          variant="standard"
+          fullWidth
+          type="email"
+          required
+          sx={styleOfTextField}
+          {...contact("email", {
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'נא להזין אימייל חוקי'
+            }
+          })}
+          helperText={errors.email ? errors.email?.message : ''}
+        />
+        <TextField
+          defaultValue="הודעה"
+          variant="standard"
+          fullWidth
+          multiline
+          required
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            mt: 3,
-            width: '100%',
+            ...styleOfTextField,
+            borderRadius: "25px",
+            height: "166px",
+            resize: "none",
+            overflow: "hidden",
+            backgroundColor: 'rgba(45, 64, 168, 1)'
           }}
-          noValidate
-          autoComplete="off"
+          {...contact("massage")}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            ...styleOfContactFormElements,
+            mt: 2,
+            background: "linear-gradient(154.24deg, #A82D7A -7.66%, #082B93 129.98%)"
+          }}
         >
-          <TextField
-            label="Name"
-            variant="outlined"
-            fullWidth
-            required
-            sx={{ backgroundColor: '#ffffff' }}
-          />
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            type="email"
-            required
-            sx={{ backgroundColor: '#ffffff' }}
-          />
-          <TextField
-            label="Message"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={4}
-            required
-            sx={{ backgroundColor: '#ffffff' }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              mt: 2,
-              backgroundColor: theme.palette.primary.main,
-              '&:hover': {
-                backgroundColor: theme.palette.primary.dark,
-              },
-            }}
-          >
-            Send
-          </Button>
-        </Box>
+          שליחה
+        </Button>
       </Box>
     </Container>
   );
